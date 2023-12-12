@@ -10,9 +10,7 @@ import java.sql.SQLException;
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Process login logic (validate credentials, check against the database)
 
-        // For example:
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String fullName = "";
@@ -32,13 +30,5 @@ public class LoginServlet extends HttpServlet {
         } else {
             response.sendRedirect("login.jsp?error=1");
         }
-    }
-
-
-
-    private String getFullNameByEmail(String email) {
-        // Retrieve full name from the database based on email (you need to implement this part)
-        // Return the full name
-        return "John Doe"; // Replace with the actual full name
     }
 }
