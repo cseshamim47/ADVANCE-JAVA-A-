@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.beans.PropertyEditorSupport;
 import java.sql.SQLException;
 
 @Controller
@@ -25,10 +26,13 @@ public class StudentController {
     }
 
     @InitBinder
-    public void intiBinder(WebDataBinder webDataBinder) {
+    public void initBinder(WebDataBinder webDataBinder) {
         StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
         webDataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
+
     }
+
+
 
     @RequestMapping("/create")
     public String fourth(Model model) {
@@ -39,6 +43,7 @@ public class StudentController {
     @RequestMapping("/store")
     public String fifth(@Valid @ModelAttribute("student") Student student, BindingResult bindingResult) throws SQLException {
         if (bindingResult.hasErrors()) {
+            System.out.println(student.getId());
             return "registration";
         }
         else {
@@ -47,12 +52,12 @@ public class StudentController {
         }
     }
 
-    @RequestMapping("/get/{id}")
-    public String sixth(@PathVariable ("email") String email, Model model) throws SQLException {
-        Student student = studentService.get(email);
-        model.addAttribute("student", student);
-        return "update";
-    }
+//    @RequestMapping("/get/{id}")
+//    public String sixth(@PathVariable ("email") String email, Model model) throws SQLException {
+//        Student student = studentService.get(email);
+//        model.addAttribute("student", student);
+//        return "update";
+//    }
 
     @RequestMapping("/update")
     public String sixth(@Valid @ModelAttribute("student") Student student, BindingResult bindingResult) throws SQLException {

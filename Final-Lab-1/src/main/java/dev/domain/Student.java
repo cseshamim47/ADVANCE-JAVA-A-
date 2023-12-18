@@ -1,53 +1,68 @@
 package dev.domain;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.NumberFormat;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 
 public class Student {
+
+
+
     @NotNull
-    private int id;
+    @NumberFormat
+    private String sid;
+
+    private Integer id;
+
     @NotNull
+    @Size(max = 100)
     private String name;
 
     @NotNull
-    @Pattern(regexp = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$", message = "Incorrect email format")
+    @Email(message = "Incorrect email format")
+    @Size(max = 100)
     private String email;
-
-    @NotNull
-    @Size(min = 8)
-    private String password;
 
     @NotNull
     @Past
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate dateOfBirth;
 
+    @NotNull
     private Gender gender;
 
-    private String quota;
+    @Size(max = 10)
+    private String quota = "N/A";
 
-    private String country;
+    @NotNull
+    @Size(max = 100)
+    private String country = "Bangladeshi";
 
     public Student() {
     }
 
-    public Student(int id, String name, String email, String password, LocalDate dateOfBirth, Gender gender, String quota, String country) {
-        this.id = id;
+    public Student(String id, String name, String email, LocalDate dateOfBirth, Gender gender, String quota, String country) {
+        this.sid = id;
         this.name = name;
         this.email = email;
-        this.password = password;
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
-        this.quota = quota;
+        System.out.println(quota);
+        if(quota != null) this.quota = quota;
         this.country = country;
     }
 
-    public int getId() {
+    public String getSid() {
+        return sid;
+    }
+
+    public void setSid(String sid) {
+        this.sid = sid;
+    }
+
+    public Integer getId() {
         return id;
     }
 
@@ -71,13 +86,6 @@ public class Student {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
@@ -100,7 +108,7 @@ public class Student {
     }
 
     public void setQuota(String quota) {
-        this.quota = quota;
+        if(quota != null) this.quota = quota;
     }
 
     public String getCountry() {
@@ -117,7 +125,6 @@ public class Student {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
                 ", gender=" + gender +
                 ", quota='" + quota + '\'' +

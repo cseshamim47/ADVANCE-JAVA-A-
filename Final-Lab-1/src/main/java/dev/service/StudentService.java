@@ -24,7 +24,7 @@ public class StudentService {
         studentRepository.update(student);
     }
 
-    public Student get(String email) throws SQLException {
-        return studentRepository.get(email);
-    }
+//    public Student get(String email) throws SQLException {
+//        return studentRepository.get(email);
+//    }
 }

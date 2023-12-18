@@ -28,10 +28,6 @@
 <form:errors path="dateOfBirth"/>
 <br><br>
 
-<label>Password</label>
-<form:input path="password" id="password"/>
-<form:errors path="password"/>
-<br><br>
 
 <label>Gender</label>
 <form:radiobutton path="gender" value="MALE"/> Male
@@ -41,13 +37,18 @@
 <br><br>
 
 <label>Quota</label>
-<form:checkbox path="quota" id="quota" value="YES"/>
+<form:checkbox path="quota" id="quota" value="1"/>
 <form:errors path="quota"/>
 <br><br>
 
 <label>Country</label>
-<form:input path="Country" id="Country"/>
-<form:errors path="Country"/>
+<form:select path="country" id="country">
+    <form:option value="Bangladesh" label="Bangladesh"/>
+    <form:option value="India" label="India"/>
+    <form:option value="Nepal" label="Nepal"/>
+</form:select>
+<form:errors path="country"/>
+
 <br><br>
 
 
