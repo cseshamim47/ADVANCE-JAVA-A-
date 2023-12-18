@@ -7,19 +7,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.beans.PropertyEditorSupport;
 import java.sql.SQLException;
+import java.util.List;
 
 @Controller
 public class StudentController {
 
-    private StudentService studentService;
+    private final StudentService studentService;
 
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
@@ -29,44 +26,63 @@ public class StudentController {
     public void initBinder(WebDataBinder webDataBinder) {
         StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
         webDataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
-
     }
 
-
-
     @RequestMapping("/create")
-    public String fourth(Model model) {
+    public String createStudent(Model model) {
         model.addAttribute("student", new Student());
         return "registration";
     }
 
     @RequestMapping("/store")
-    public String fifth(@Valid @ModelAttribute("student") Student student, BindingResult bindingResult) throws SQLException {
+    public String storeStudent(@Valid @ModelAttribute("student") Student student, BindingResult bindingResult) throws SQLException {
         if (bindingResult.hasErrors()) {
-            System.out.println(student.getId());
             return "registration";
-        }
-        else {
+        } else {
             studentService.create(student);
             return "confirm";
         }
     }
 
-//    @RequestMapping("/get/{id}")
-//    public String sixth(@PathVariable ("email") String email, Model model) throws SQLException {
-//        Student student = studentService.get(email);
-//        model.addAttribute("student", student);
-//        return "update";
-//    }
+    @RequestMapping("/students")
+    public String getAllStudents(Model model) throws SQLException {
+        List<Student> students = studentService.getAllStudents();
+        model.addAttribute("students", students);
+        return "students";
+    }
 
-    @RequestMapping("/update")
-    public String sixth(@Valid @ModelAttribute("student") Student student, BindingResult bindingResult) throws SQLException {
+    @RequestMapping("/students/{id}")
+    public String findStudent(@PathVariable int id, Model model) throws SQLException {
+        Student student = studentService.getStudentById(id);
+        model.addAttribute("student", student);
+        return "find";
+    }
+
+    @RequestMapping(value = "students/{id}/edit", method = RequestMethod.GET)
+    public String editStudentForm(@PathVariable int id, Model model) throws SQLException {
+        Student student = studentService.getStudentById(id);
+        model.addAttribute("student", student);
+        return "update";
+    }
+
+    @RequestMapping(value = "students/{id}/edit", method = RequestMethod.POST)
+    public String updateStudent(@PathVariable int id, @Valid @ModelAttribute("student") Student student, BindingResult bindingResult) throws SQLException {
         if (bindingResult.hasErrors()) {
             return "update";
         }
         else {
-            studentService.update(student);
-            return "/";
+            studentService.updateStudentById(student);
+            return "redirect:/students";
         }
     }
+
+
+
+    @RequestMapping("/students/{id}/delete")
+    public String deleteStudent(@PathVariable int id) throws SQLException {
+        studentService.deleteStudentById(id);
+        return "redirect:/students";
+    }
+
+
 }

@@ -5,7 +5,11 @@
 
 <hr>
 
-<a href="${pageContext.request.contextPath}/create">Create User</a>
+<a href="${pageContext.request.contextPath}/create">Create Student</a>
+<br><br>
+<a href="${pageContext.request.contextPath}/students">All Students</a>
+
+
 
 </body>
 </html>

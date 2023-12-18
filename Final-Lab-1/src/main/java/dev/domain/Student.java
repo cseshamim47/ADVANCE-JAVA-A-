@@ -1,5 +1,6 @@
 package dev.domain;
 
+import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
 
@@ -8,21 +9,17 @@ import java.time.LocalDate;
 
 public class Student {
 
-
-
+    @Digits(integer = 10, fraction = 0, message = "ID must be a number with up to 10 digits")
     @NotNull
-    @NumberFormat
-    private String sid;
-
     private Integer id;
 
-    @NotNull
-    @Size(max = 100)
+    @NotBlank
+    @Length(max = 100)
     private String name;
 
-    @NotNull
-    @Email(message = "Incorrect email format")
-    @Size(max = 100)
+    @NotBlank
+    @Email
+    @Length(max = 100)
     private String email;
 
     @NotNull
@@ -31,42 +28,35 @@ public class Student {
     private LocalDate dateOfBirth;
 
     @NotNull
-    private Gender gender;
+    private String gender;
 
-    @Size(max = 10)
+    @Length(max = 10)
     private String quota = "N/A";
 
-    @NotNull
-    @Size(max = 100)
-    private String country = "Bangladeshi";
+    @NotBlank
+    @Length(max = 100)
+    private String country = "Bangladesh";
 
     public Student() {
     }
 
-    public Student(String id, String name, String email, LocalDate dateOfBirth, Gender gender, String quota, String country) {
-        this.sid = id;
+    public Student(Integer id, String name, String email, LocalDate dateOfBirth, String gender, String quota, String country) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
-        System.out.println(quota);
-        if(quota != null) this.quota = quota;
+        if(quota != null)
+        this.quota = quota;
         this.country = country;
     }
 
-    public String getSid() {
-        return sid;
-    }
-
-    public void setSid(String sid) {
-        this.sid = sid;
-    }
 
     public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -86,7 +76,6 @@ public class Student {
         this.email = email;
     }
 
-
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
@@ -95,11 +84,11 @@ public class Student {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Gender getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(Gender gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
@@ -108,7 +97,8 @@ public class Student {
     }
 
     public void setQuota(String quota) {
-        if(quota != null) this.quota = quota;
+        if(quota != null)
+            this.quota = quota;
     }
 
     public String getCountry() {
@@ -119,16 +109,5 @@ public class Student {
         this.country = country;
     }
 
-    @Override
-    public String toString() {
-        return "Student{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", dateOfBirth=" + dateOfBirth +
-                ", gender=" + gender +
-                ", quota='" + quota + '\'' +
-                ", country='" + country + '\'' +
-                '}';
-    }
+
 }

@@ -18,4 +18,6 @@
         <property name="user" value="root"/>
         <property name="password" value=""/>
     </bean>
+
+    <!--<bean id="fc" class="dev.controller.UserController"/>-->
 </beans>
